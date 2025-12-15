@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "pipeline_id": 34,
+    "pipeline_name": "AI Pipeline Studio",
+    "description": "Pipeline Studio",
+    "version": 1,
+    "version_id": 35,
+    "organization_id": 3,
+    "workspace_id": 5,
+    "labels": [],
+    "exported_at": "2025-12-15T04:00:54.278001"
+  },
+  "definition": {
+    "edges": [
+      {
+        "source": "sql-table-source-1765591695825",
+        "target": "sql-transform-1765591747897",
+        "condition": null
+      }
+    ],
+    "nodes": [
+      {
+        "id": "sql-table-source-1765591695825",
+        "kind": "source",
+        "name": "SQL Table Source",
+        "config": {
+          "kind": "source",
+          "owner": "Data Engineering",
+          "engine": "sql",
+          "laneId": "lane-ingest",
+          "dataset": "landing.sales_events",
+          "loadMode": "batch",
+          "dataShape": "table",
+          "queryMode": "query",
+          "watermark": "event_time",
+          "connection": "bigquery",
+          "sampleRows": 5000,
+          "sourceType": "sql",
+          "customQuery": "SELECT * FROM sql_table_customers_100k ",
+          "description": "Production-ready config with lineage and quality checks.",
+          "displayName": "SQL Table Source",
+          "filterLayer": "all",
+          "outputAlias": "sql_table_source",
+          "outputShape": "table",
+          "partitionBy": "ingest_date",
+          "expectedInputs": 1,
+          "refreshCadence": "Every 15 min",
+          "selectedTables": [
+            {
+              "id": "sql_sql_table_customers_100k",
+              "name": "sql_table_customers_100k",
+              "path": "/sql/sql_table_customers_100k",
+              "rowCount": 500000
+            }
+          ],
+          "catalogItemName": "SQL Table Source",
+          "expectedOutputs": 1
+        },
+        "engine": "sql",
+        "laneId": null
+      },
+      {
+        "id": "sql-transform-1765591747897",
+        "kind": "transform",
+        "name": "SQL Transform",
+        "config": {
+          "code": "SELECT * FROM input_1 LIMIT 25;",
+          "kind": "transform",
+          "owner": "Data Engineering",
+          "query": "SELECT * FROM input_1 LIMIT 25;",
+          "tests": true,
+          "dedupe": true,
+          "engine": "sql",
+          "filter": "quality_score >= 0.97 AND country IN ('US','DE','GB')",
+          "laneId": "lane-transform",
+          "joinKey": "customer_id",
+          "language": "sql",
+          "dataShape": "table",
+          "inputShape": "table",
+          "sqlDialect": "spark",
+          "cacheResult": false,
+          "description": "Production-ready config with lineage and quality checks.",
+          "displayName": "SQL Transform",
+          "outputAlias": "",
+          "outputShape": "table",
+          "inputAliases": {},
+          "outputSchema": [],
+          "transformType": "sql",
+          "validateQuery": true,
+          "expectedInputs": 1,
+          "refreshCadence": "Every 15 min",
+          "expectedOutputs": 1
+        },
+        "engine": "sql",
+        "laneId": null
+      }
+    ],
+    "metadata": {}
+  }
+}
