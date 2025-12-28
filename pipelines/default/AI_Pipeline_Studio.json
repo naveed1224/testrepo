@@ -1,52 +1,31 @@
 {
   "metadata": {
-    "pipeline_id": 36,
+    "pipeline_id": 37,
     "pipeline_name": "AI Pipeline Studio",
     "description": "Pipeline Studio",
-    "version": 1,
-    "version_id": 37,
+    "version": 3,
+    "version_id": 40,
     "organization_id": 3,
     "workspace_id": 5,
     "labels": [],
-    "exported_at": "2025-12-18T17:49:21.979965"
+    "exported_at": "2025-12-28T01:27:21.184228"
   },
   "definition": {
-    "edges": [],
-    "nodes": [
+    "edges": [
       {
-        "id": "delta-table-source-1765685341526",
-        "kind": "source",
-        "name": "Delta Table Source",
-        "config": {
-          "kind": "source",
-          "owner": "Data Engineering",
-          "engine": "spark",
-          "laneId": "lane-ingest",
-          "dataset": "landing.sales_events",
-          "filters": [],
-          "loadMode": "batch",
-          "dataShape": "table",
-          "tablePath": "gs://fourth-caster-478504-d6-pipeline-data/tenants/test-org/orgs/3/workspaces/5/lakehouse/bronze/customers_500000-delta/data/20251206033313_7.parquet",
-          "watermark": "event_time",
-          "connection": "bigquery",
-          "sampleRows": 5000,
-          "sourceType": "delta_lake",
-          "description": "Production-ready config with lineage and quality checks.",
-          "displayName": "Delta Table Source",
-          "outputAlias": "delta_table_source",
-          "outputShape": "table",
-          "partitionBy": "ingest_date",
-          "expectedInputs": 1,
-          "refreshCadence": "Every 15 min",
-          "timeTravelMode": "none",
-          "catalogItemName": "Delta Table Source",
-          "expectedOutputs": 1
-        },
-        "engine": "spark",
-        "laneId": null
+        "source": "sql-table-source-1766709990481",
+        "target": "filter-transform-1766710007366",
+        "condition": null
       },
       {
-        "id": "sql-table-source-1765685434132",
+        "source": "filter-transform-1766710007366",
+        "target": "sql-table-sink-1766807462787",
+        "condition": null
+      }
+    ],
+    "nodes": [
+      {
+        "id": "sql-table-source-1766709990481",
         "kind": "source",
         "name": "SQL Table Source",
         "config": {
@@ -54,6 +33,68 @@
           "owner": "Data Engineering",
           "engine": "sql",
           "laneId": "lane-ingest",
+          "schema": [
+            {
+              "name": "Year",
+              "type": "integer",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_aggregation_NZSIOC",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_code_NZSIOC",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_name_NZSIOC",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Units",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Variable_code",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Variable_name",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Variable_category",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Value",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_code_ANZSIC06",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            }
+          ],
           "dataset": "landing.sales_events",
           "loadMode": "batch",
           "dataShape": "table",
@@ -65,6 +106,68 @@
           "description": "Production-ready config with lineage and quality checks.",
           "displayName": "SQL Table Source",
           "filterLayer": "all",
+          "inputSchema": [
+            {
+              "name": "Year",
+              "type": "integer",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_aggregation_NZSIOC",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_code_NZSIOC",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_name_NZSIOC",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Units",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Variable_code",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Variable_name",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Variable_category",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Value",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            },
+            {
+              "name": "Industry_code_ANZSIC06",
+              "type": "string",
+              "source": "test_updated_path_table1",
+              "nullable": true
+            }
+          ],
           "outputAlias": "sql_table_source",
           "outputShape": "table",
           "partitionBy": "ingest_date",
@@ -72,14 +175,89 @@
           "refreshCadence": "Every 15 min",
           "selectedTables": [
             {
-              "id": "sql_priciing_sql_table",
-              "name": "priciing_sql_table",
-              "path": "/sql/priciing_sql_table",
-              "rowCount": 43
+              "id": "sql_test_updated_path_table1",
+              "name": "test_updated_path_table1",
+              "path": "/sql/test_updated_path_table1",
+              "rowCount": 55620
             }
           ],
           "catalogItemName": "SQL Table Source",
           "expectedOutputs": 1
+        },
+        "engine": "sql",
+        "laneId": null
+      },
+      {
+        "id": "filter-transform-1766710007366",
+        "kind": "transform",
+        "name": "Filter",
+        "config": {
+          "kind": "transform",
+          "owner": "Data Engineering",
+          "tests": true,
+          "dedupe": true,
+          "engine": "sql",
+          "filter": "quality_score >= 0.97 AND country IN ('US','DE','GB')",
+          "laneId": "lane-transform",
+          "joinKey": "customer_id",
+          "language": "sql",
+          "dataShape": "table",
+          "inputShape": "table",
+          "description": "Production-ready config with lineage and quality checks.",
+          "displayName": "Filter",
+          "filterLogic": "AND",
+          "outputAlias": "",
+          "outputShape": "table",
+          "transformType": "filter",
+          "expectedInputs": 1,
+          "refreshCadence": "Every 15 min",
+          "expectedOutputs": 1,
+          "filterConditions": [
+            {
+              "id": "cond-1766710030969",
+              "value": "2022",
+              "column": "Year",
+              "operator": "="
+            }
+          ]
+        },
+        "engine": "sql",
+        "laneId": null
+      },
+      {
+        "id": "sql-table-sink-1766807462787",
+        "kind": "sink",
+        "name": "SQL Table Sink",
+        "config": {
+          "kind": "sink",
+          "owner": "Data Engineering",
+          "engine": "sql",
+          "laneId": "lane-output",
+          "target": "analytics.curated_sales",
+          "sinkType": "sql_table",
+          "dataShape": "table",
+          "tableName": "marketstablepipelinetest",
+          "writeMode": "overwrite",
+          "clustering": "country, order_date",
+          "compaction": "Every 30 min",
+          "connection": "delta",
+          "inputShape": "table",
+          "schemaName": "markets",
+          "description": "Production-ready config with lineage and quality checks.",
+          "displayName": "SQL Table Sink",
+          "outputShape": "table",
+          "partitionBy": "ingest_date",
+          "errorHandling": "fail",
+          "syncToCatalog": true,
+          "createNewTable": true,
+          "expectedInputs": 1,
+          "refreshCadence": "Every 15 min",
+          "catalogFolderId": "35",
+          "expectedOutputs": 1,
+          "catalogFolderName": "markets",
+          "catalogFolderPath": "/markets",
+          "catalogFolderLayer": "bronze",
+          "validateBeforeWrite": true
         },
         "engine": "sql",
         "laneId": null
